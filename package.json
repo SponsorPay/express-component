@@ -1,0 +1,26 @@
+{
+  "name": "express-component",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "compile": "tsc",
+    "start": "ts-node example/helloWorld.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "files": [
+    "build"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "tslib": "^1.9.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.11.1",
+    "express": "^4.16.3",
+    "ts-node": "^5.0.1",
+    "typescript": "^2.8.1"
+  }
+}
