@@ -1,7 +1,7 @@
 # express-component
 Component-based routing on top of Express
 
-```
+```typescript
 import * as express from "express"
 import {withRouterFactory, Router, Get, HandleFn, TryJson, Component, Handler, GetTryJson} from "express-component";
 
