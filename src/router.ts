@@ -1,7 +1,7 @@
 import {Element} from "./element";
 
 export interface RouterParams {
-  path: string;
+  path?: string;
   children: Element[];
 }
 
