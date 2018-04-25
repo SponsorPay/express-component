@@ -46,7 +46,6 @@ export function withRouterFactory(factory: RouterFactory) {
       } else {
         router.use(childRouter)
       }
-      router.use(instance.path, childRouter)
     } else if (isComponent(instance)) {
       instance.context = context
       render(instance.render(), router, instance.getChildContext && instance.getChildContext() || context)
