@@ -1,5 +1,7 @@
+import {Element} from "./element"
+
 export interface Component {
   getChildContext?(): any;
   context?: any;
-  render(): any;
+  render(): Element;
 }

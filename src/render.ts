@@ -1,10 +1,11 @@
 import {IRouter} from "express-serve-static-core"
 import {Handler} from "./handler";
+import {Middleware} from "./middleware"
 import {Router} from "./router";
 import {Component} from "./component";
 import {Element} from "./element";
 import {HandleFn} from "./types";
-import {Composed} from "./composed";
+import {Composed, Composer} from "./composed";
 
 function composeHandlers(e: any, context?: any): HandleFn {
   if (e == null) {
@@ -28,35 +29,41 @@ function composeHandlers(e: any, context?: any): HandleFn {
 export type RouterFactory = (...args: any[]) => IRouter
 
 export function withRouterFactory(factory: RouterFactory) {
-  return function render(instance: Element, router: IRouter, context?: any) {
+  return function render(instance: Element, router: IRouter, mw: Composer | null = null, context?: any) {
     if (instance instanceof Handler) {
-      const handler = composeHandlers(instance.handle, context)
+      const handler = mw(composeHandlers(instance.handle, context))
       if (instance.path) {
         router.use(instance.path, handler)
       } else {
         router.use(handler)
       }
-    } else if (instance instanceof Router) {
+    } else if (isRouter(instance)) {
       const childRouter = factory()
       for (const child of instance.children) {
-        render(child, childRouter, context)
+        render(child, childRouter, mw, context)
       }
       if (instance.path) {
         router.use(instance.path, childRouter)
       } else {
         router.use(childRouter)
       }
+    } else if(instance instanceof Middleware) {
+      render(instance.child, router, instance.handle, context)
     } else if (isComponent(instance)) {
       instance.context = context
-      render(instance.render(), router, instance.getChildContext && instance.getChildContext() || context)
+      render(instance.render(), router, mw, instance.getChildContext && instance.getChildContext() || context)
     }
-
-    // else {
-    //   throw TypeError(`Illegal instance type ${instance && instance.constructor.name}`)
-    // }
+    throw TypeError(`Illegal instance type`)
   }
 }
 
+function isRouter(e: any): e is Router {
+  return e != null && Array.isArray(e.children)
+}
+
+function isHandler(e: any): e is Handler {
+  return e != null && typeof e.render == "function"
+}
 
 function isComponent(e: any): e is Component {
   return e != null && typeof e.render == "function"
