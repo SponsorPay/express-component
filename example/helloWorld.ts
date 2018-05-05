@@ -30,6 +30,6 @@ class MyComponent implements Component {
 
 const app = express()
 withRouterFactory(express.Router)(new MyComponent(), app)
-app.listen(9090, () => {
-  console.log("listening...")
+const server = app.listen(() => {
+  console.log(`http://localhost:${server.address().port}/api/nice`)
 })
