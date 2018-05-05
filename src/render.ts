@@ -5,33 +5,14 @@ import {Router} from "./router";
 import {Component} from "./component";
 import {Element} from "./element";
 import {HandleFn} from "./types";
-import {Composed, Composer} from "./composed";
-
-function composeHandlers(e: any, context?: any): HandleFn {
-  if (e == null) {
-    return e
-  }
-  if (isSimple(e)) {
-    return e
-  }
-  if (e instanceof Composed) {
-    const child = composeHandlers(e.child, context)
-    return e.handle(child)
-  }
-  if (isComponent(e)) {
-    e.context = context
-    return composeHandlers(e.render(), e.getChildContext && e.getChildContext() || context)
-  }
-  throw TypeError(`Illegal instance type ${e && e.constructor.name}`)
-}
-
+import {Composer} from "./composed";
 
 export type RouterFactory = (...args: any[]) => IRouter
 
 export function withRouterFactory(factory: RouterFactory) {
   return function render(instance: Element, router: IRouter, mw: Composer | null = null, context?: any) {
     if (instance instanceof Handler) {
-      const handler = mw(composeHandlers(instance.handle, context))
+      const handler = mw(instance.handle)
       if (instance.path) {
         router.use(instance.path, handler)
       } else {
@@ -47,13 +28,14 @@ export function withRouterFactory(factory: RouterFactory) {
       } else {
         router.use(childRouter)
       }
-    } else if(instance instanceof Middleware) {
+    } else if (instance instanceof Middleware) {
       render(instance.child, router, instance.handle, context)
     } else if (isComponent(instance)) {
       instance.context = context
       render(instance.render(), router, mw, instance.getChildContext && instance.getChildContext() || context)
+    } else {
+      throw TypeError(`Illegal instance type`)
     }
-    throw TypeError(`Illegal instance type`)
   }
 }
 

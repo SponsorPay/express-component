@@ -1,11 +1,11 @@
+import {Element} from "./element"
+import {Middleware} from "./middleware"
 import {HandleFn} from "./types";
-import {Composed} from "./composed";
 import {ErrorRequestHandler} from "express";
-import {ComposeElement} from "./composeElement";
 
 export interface TryParams {
   onCatch: ErrorRequestHandler;
-  child: ComposeElement;
+  child: Element;
 }
 
 export interface Try extends TryParams {
@@ -26,7 +26,7 @@ export class Try {
   }
 
   render() {
-    return new Composed({
+    return new Middleware({
       handle: this.tryHandler,
       child: this.child
     })

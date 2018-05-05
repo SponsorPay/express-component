@@ -17,8 +17,10 @@ class MyComponent implements Component {
       path: "/api",
       children: [
         new GetTryJson({
-          path: "/nice",
-          child: this.nice,
+          child: new Handler({
+            path: "/nice",
+            handle: this.nice,
+          }),
           onCatch: this.handleCatch
         })
       ]
@@ -28,4 +30,6 @@ class MyComponent implements Component {
 
 const app = express()
 withRouterFactory(express.Router)(new MyComponent(), app)
-app.listen(9090)
+app.listen(9090, () => {
+  console.log("listening...")
+})

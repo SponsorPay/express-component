@@ -1,10 +1,10 @@
+import {Element} from "./element"
+import {Middleware} from "./middleware"
 import {HandleFn} from "./types";
-import {Composed} from "./composed";
 import {JsonParams} from "./json";
-import {ComposeElement} from "./composeElement";
 
 export interface GetParams {
-  child: ComposeElement;
+  child: Element;
 }
 
 export interface Get extends GetParams {
@@ -25,7 +25,7 @@ export class Get {
   }
 
   render() {
-    return new Composed({
+    return new Middleware({
       handle: this.getHandler,
       child: this.child
     })

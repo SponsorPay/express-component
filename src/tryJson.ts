@@ -1,10 +1,10 @@
+import {Element} from "./element"
 import {Try} from "./try";
 import {Json} from "./json";
 import {ErrorRequestHandler} from "express";
-import {ComposeElement} from "./composeElement";
 
 export interface TryJsonParams {
-  child: ComposeElement;
+  child: Element;
   onCatch: ErrorRequestHandler;
 }
 
