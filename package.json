@@ -7,7 +7,7 @@
   "scripts": {
     "compile": "tsc",
     "start": "ts-node example/helloWorld.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test/**/*.ts* --require=ts-node/register --require mocha-clean"
   },
   "files": [
     "build"
@@ -22,6 +22,7 @@
     "@types/mocha": "^5.2.0",
     "express": "^4.16.3",
     "mocha": "^5.1.1",
+    "mocha-clean": "^1.0.0",
     "ts-node": "^5.0.1",
     "typescript": "^2.8.1"
   }
