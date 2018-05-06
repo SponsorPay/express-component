@@ -1,10 +1,10 @@
+import {Element} from "./element"
+import {Middleware} from "./middleware"
 import {HandleFn} from "./types";
-import {Composed} from "./composed";
 import {JsonParams} from "./json";
-import {ComposeElement} from "./composeElement";
 
 export interface PostParams {
-  child: ComposeElement;
+  child: Element;
 }
 
 export interface Post extends PostParams {
@@ -25,9 +25,10 @@ export class Post {
   }
 
   render() {
-    return new Composed({
+    const {child} = this
+    return new Middleware({
       handle: this.postHandler,
-      child: this.child
+      child
     })
   }
 }

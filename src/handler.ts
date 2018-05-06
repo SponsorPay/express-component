@@ -3,7 +3,7 @@ import {HandleFn} from "./types";
 export interface HandlerParams {
   path?: string;
 
-  handle: HandleFn | any;
+  handle: HandleFn;
 }
 
 export interface Handler extends HandlerParams {

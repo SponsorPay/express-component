@@ -1,12 +1,11 @@
-import {ComposeElement} from "./composeElement";
 import {ErrorRequestHandler} from "express";
-import {Handler} from "./handler"
+import {Element} from "./element"
 import {Post} from "./post";
 import {TryJson} from "./tryJson"
 
 export interface PostTryJsonParams {
   path: string;
-  child: ComposeElement;
+  child: Element;
   onCatch: ErrorRequestHandler;
 }
 
@@ -20,13 +19,10 @@ export class PostTryJson {
   }
 
   render() {
-    return new Handler({
-      path: this.path,
-      handle: new Post({
-        child: new TryJson({
-          onCatch: this.onCatch,
-          child: this.child
-        })
+    return new Post({
+      child: new TryJson({
+        onCatch: this.onCatch,
+        child: this.child
       })
     })
   }
