@@ -1,6 +1,8 @@
 # express-component
 Component-based routing on top of Express
 
+[![Build Status](https://travis-ci.org/kobiburnley/express-component.svg?branch=master)](https://travis-ci.org/kobiburnley/express-component)
+
 ```typescript
 import * as express from "express"
 import {withRouterFactory, Router, Get, HandleFn, TryJson, Component, Handler, GetTryJson} from "express-component";
