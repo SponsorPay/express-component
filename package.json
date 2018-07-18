@@ -6,6 +6,7 @@
   "types": "build/index.d.ts",
   "scripts": {
     "compile": "tsc",
+    "build": "rm -rf build && npm run compile",
     "start": "ts-node example/helloWorld.ts",
     "test": "mocha test/**/*.ts* --require=ts-node/register --require mocha-clean",
     "lint": "tslint src/**/*.ts*"
