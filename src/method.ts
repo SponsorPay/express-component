@@ -1,11 +1,13 @@
 import {Component} from "./component";
-import {Handler} from "./handler"
-import {HandleFn} from "./types";
+import {Element} from "./element"
+import {Middleware} from "./middleware"
+import {HandleFn} from "./types"
+
+export type MethodName = "GET" | "POST" | "DELETE" | "PUT" | "OPTIONS"
 
 export interface MethodParams {
-  method: "GET" | "POST" | "DELETE" | "PUT" | "OPTIONS"
-  path?: string;
-  handle: HandleFn;
+  method: MethodName
+  child: Element;
 }
 
 export interface Method extends MethodParams, Component {
@@ -17,18 +19,18 @@ export class Method implements Component {
     Object.assign(this, params)
   }
 
-  checkMethod: HandleFn = (req, res, next) => {
+  checkMethod: (handler: HandleFn) => HandleFn = (handler: HandleFn) => async (req, res, next) => {
     if (req.method === this.method) {
-      this.handle(req, res, next)
+      handler(req, res, next)
     } else {
       next()
     }
   }
 
   render(): any {
-    const {path} = this
-    return new Handler({
-      path, handle: this.checkMethod
+    return new Middleware({
+      child: this.child,
+      handle: this.checkMethod
     })
   }
 }
