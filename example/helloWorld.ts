@@ -18,7 +18,7 @@ class MyComponent implements Component {
   }
 
   getChildContext() {
-    return "The context!"
+    return this
   }
 
   render() {
