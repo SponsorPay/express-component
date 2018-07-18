@@ -4,7 +4,6 @@ import {Post} from "./post";
 import {TryJson} from "./tryJson"
 
 export interface PostTryJsonParams {
-  path: string;
   child: Element;
   onCatch: ErrorRequestHandler;
 }

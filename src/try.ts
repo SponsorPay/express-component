@@ -15,6 +15,9 @@ export interface Try extends TryParams {
 export class Try {
   constructor(params: TryParams) {
     Object.assign(this, params)
+    if (typeof this.onCatch !== "function") {
+      throw new Error("onCatch must be a function")
+    }
   }
 
   tryHandler: (handler: HandleFn) => HandleFn = (handler: HandleFn) => async (req, res, next) => {
