@@ -9,7 +9,9 @@
     "build": "rm -rf build && npm run compile",
     "start": "ts-node example/helloWorld.ts",
     "test": "mocha test/**/*.ts* --require=ts-node/register --require mocha-clean",
-    "lint": "tslint src/**/*.ts*"
+    "lint": "tslint src/**/*.ts*",
+    "cd": "standard-version -m \"chore(release): %s [skip ci]\" && git push --follow-tags origin $CIRCLE_BRANCH && npm publish",
+    "codecov": "nyc report --reporter=json --reporter=html && codecov -f coverage/*.json"
   },
   "files": [
     "build"
