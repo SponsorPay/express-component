@@ -20,8 +20,6 @@ jobs:
           name: Test
           command: |
             npm test
-            npm run coverage
-            npm run codecov
       - run:
           name: Publish
           command: |
