@@ -18,6 +18,10 @@
   ],
   "author": "",
   "license": "ISC",
+  "repository": { 
+    "type": "git", 
+    "url": "https://github.com/SponsorPay/express-component"
+  },
   "dependencies": {
     "tslib": "^1.9.0"
   },
