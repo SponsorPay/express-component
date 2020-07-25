@@ -12,11 +12,12 @@ export type RouterFactory = (...args: any[]) => IRouter
 export function withRouterFactory(factory: RouterFactory) {
   return function render(instance: Element, router: IRouter, mw: Composer | null = null, context?: any) {
     if (instance instanceof Handler) {
-      const handler = mw != null ? mw(instance.handle, router) : instance.handle
+      const handler = mw != null ? mw(instance.handle) : instance.handle;
       if (instance.path) {
-        router.use(instance.path, handler)
-      } else {
-        router.use(handler)
+          router[instance.method](instance.path, handler);
+      }
+      else {
+          router[instance.method]("", handler);
       }
     } else if (isRouter(instance)) {
       const childRouter = factory()
@@ -29,7 +30,7 @@ export function withRouterFactory(factory: RouterFactory) {
         router.use(childRouter)
       }
     } else if (instance instanceof Middleware) {
-      const composer = mw != null ? (handler: HandleFn) => mw(instance.handle(handler), router) : instance.handle
+      const composer = mw != null ? (handler: HandleFn) => mw(instance.handle(handler)) : instance.handle
       render(instance.child, router, composer, context)
     } else if (isComponent(instance)) {
       instance.context = context
