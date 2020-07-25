@@ -1,9 +1,10 @@
-import {HandleFn} from "./types";
+import { MethodName } from "./method";
+import { HandleFn } from "./types";
 
 export interface HandlerParams {
   path?: string;
-
   handle: HandleFn;
+  method: MethodName;
 }
 
 export interface Handler extends HandlerParams {
